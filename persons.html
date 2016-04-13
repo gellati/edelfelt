@@ -1,0 +1,83 @@
+
+<div>
+  <!-- persons stuff -->
+  <h2>Personer</h2>
+
+    Här kan man se vilka personer som nämns i Edelfelts papper.
+<div id="personcategorytab">  
+  <ul ng-init="tab = 1" class="tab-links">
+    <li ng-class="{active:tab===1}"><a href ng-click="tab=1">Samtida personer</a></li>
+    <li ng-class="{active:tab===2}"><a href ng-click="tab=2">Historiska personser</a></li>
+    <li ng-class="{active:tab===3}"><a href ng-click="tab=3">Mytiska figurer</a></li>
+  </ul>
+</div>
+
+<div id="personscontainer">
+  <div ng-show="tab===1" class="historicaltab">
+    <table>
+      <thead>
+	<tr>
+	  <th>Namn</th>
+	    <th>Födelseår</th>
+	  <th>Dödsår</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr ng-repeat="person in persons | filter: contemporaryFilter">
+	  <td><a href="{{person.link}}">{{person.name}}</a></td>
+	  <td>{{person.birth}}</td>
+	  <td>{{person.death}}</td>
+	</tr>
+      </tbody>
+    </table>
+<br />
+    Tidsaxeln visar när personer samtida med Edelfelt levt. Tidsaxeln kan flyttas framåt eller bakåt i tiden genom att hålla mustangenten nertryckt. Med mushjulet kan man zooma in eller ut.
+    
+    <div id="personstimeline"></div>
+    
+  </div>
+  
+
+  <div ng-show="tab===2" id="historicaltab" class="tab">
+      <table>
+	<thead>
+	  <tr>
+	    <th>Namn</th>
+	    <th>Födelseår</th>
+	    <th>Dödsår</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="person in persons | filter: historicalFilter">
+	    <td><a href="{{person.link}}">{{person.name}}</a></td>
+	    <td>{{person.birth}}</td>
+	    <td>{{person.death}}</td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+
+    <div ng-show="tab===3" id="mythologicaltab" class="tab">
+      <table>
+	<thead>
+	  <tr>
+	    <th>Namn</th>
+	    <th>Födelseår</th>
+	    <th>Dödsår</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="person in persons | filter: mythologicalFilter">
+	    <td><a href="{{person.link}}">{{person.name}}</a></td>
+	    <td>{{person.birth}}</td>
+	    <td>{{person.death}}</td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+</div>
+
+
+    
+  <h2><a href="#/main">Huvudsidan</a></h2>
+</div>

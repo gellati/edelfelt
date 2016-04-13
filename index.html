@@ -1,11 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="edelfeltViewer">
+
 <head>
   <title>Edelfelt API</title>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <script type="text/javascript" src="angular.js"></script>
+  <script type="text/javascript" src="angular-route.js"></script>
+  <script type="text/javascript" src="angular-animate.js"></script>
   
-  <!--    <script type="text/javascript" src="app.js"></script>-->
+    <!-- general utility libraries -->
+
+    <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
+
+
+   <!-- timeline visualisation library -->  
+<!-- this file gives an not found error -->
+<script type="text/javascript" src="libs/vis.min.js"></script> 
+
+<link rel="stylesheet" type="text/css" media="all" href="libs/vis.min.css"/>
+
+
+   <!-- libraries for chart drawing -->
+
+   <script type="text/javascript" src="libs/amcharts/amcharts/amcharts.js"></script>
+   <script type="text/javascript" src="libs/amcharts/amcharts/pie.js"></script>
+
+   
+
+   <!-- map drawing libraries -->
+
+   <script type="text/javascript" src="libs/ammap/ammap/ammap.js"></script>
+  <link rel="stylesheet" type="text/css" media="all" href="libs/ammap/ammap/ammap.css"/>
+  <script src="libs/ammap/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+
+   
+   <!-- the range slider -->
+
+  <script type="text/javascript" src="libs/nouislider.js"></script>
+  <link rel="stylesheet" type="text/css" href="libs/nouislider.min.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="libs/nouislider.pips.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="libs/nouislider.tooltips.css" media="screen"/>
+
+ 
+
+  <script type="text/javascript" src="personsvar.json"></script>
+<!--  <script type="text/javascript" src="locationsvar.json"></script>-->
+  
+  <!--  <script type="text/javascript" src="edelfelt.js"></script> -->
+
+
+
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="MainController.js"></script>
+  <script type="text/javascript" src="PersonsController.js"></script>
+  <script type="text/javascript" src="LocationsController.js"></script>
+  <script type="text/javascript" src="LettersController.js"></script>
+  <script type="text/javascript" src="PicturesController.js"></script>
+  
+  
+
   <!--    <script type="text/javascript" src="myService.js"></script>-->
   <!--    <link rel="stylesheet" type="text/css" href="libs/jquery-jvectormap-2.0.3.css" media="screen">-->
 
@@ -15,81 +70,23 @@
 
   <h1>Visualisering av data om Edelfelt</h1>
 
-  <!-- the letters -->
-  <h2>Brev</h2>
-  Tidslinje över breven Edelfelt skrev och hur många sidor de innehöll. Färgerna skiftar enligt antal sidor.
-  <div id="letterscontainer"></div>
+  <div ng-view ng-class="slide"></div>
+  
 
 
   
-  <!--the locations stuff -->
-  <div id="locationscontainer">
-    <h2>Platser</h2>
-    Karta som anger platserna där Edelfelt rest. Endast de orter som har definierade koordinater är med.
-
-    Med reglaget kan man välja att bara se delar av resan.
-    <div id="mapcontainer"></div>
-    
-    <div id="sliderarea">
-      <div id="rangeslider"></div>
-    </div>
-  </div>
- 
-  <!-- persons stuff -->
-  <h2>Personer</h2>
-  Här kan man se vilka personer som nämns i Edelfelts papper och när de levt och fött. Tidsaxeln kan flyttas framåt eller bakåt i tiden genom att hålla mustangenten nertryckt. Med mushjulet kan man zooma in eller ut.
-
-  Personer längst till vänster i tidsaxeln antingen saknar födelse- och dödstid, eller så är formatet olämpligt för programmet.
-  <div id="personscontainer"></div>
-
-
-  <!-- pictures -->
-  <h1>Bilder</h1>
-  Bilder enligt hur många av olika slag det finns.
-  <div id="picturescontainer"></div>
-
-  <!-- the artworks -->
-  <h2>Konstverk</h2>
-  inget
-  <div id="artworkscontainer"></div>
-
-  <!-- events -->
-  <h2>Händelser</h2>
-  inget
-  <div id="eventscontainer"></div>
-
-
   <h2>Källa</h2>
   <a href="http://edelfelt.sls.fi/api/">Edelfelt api</a>
   
-  <!-- general utility libraries -->
-  <script type="text/javascript" src="libs/jquery-2.2.0.js"></script>
-
-  <!-- map drawing libraries -->
-  <script type="text/javascript" src="libs/ammap/ammap/ammap.js"></script>
-  <link rel="stylesheet" type="text/css" media="all" href="libs/ammap/ammap/ammap.css"/>
-  <script src="libs/ammap/ammap/maps/js/worldLow.js" type="text/javascript"></script>
-  
-  <!-- the range slider -->
-  <script type="text/javascript" src="libs/nouislider.js"></script>
-  <link rel="stylesheet" type="text/css" href="libs/nouislider.min.css" media="screen"/>
-  <link rel="stylesheet" type="text/css" href="libs/nouislider.pips.css" media="screen"/>
-  <link rel="stylesheet" type="text/css" href="libs/nouislider.tooltips.css" media="screen"/>
-
- 
-   <!-- timeline visualisation library -->  
-   <script type="text/javascript" src="libs/vis.min.js"></script>
-   <link rel="stylesheet" type="text/css" href="libs/vis.min.css"/>
-
-
-   <!-- libraries for chart drawing -->
-   <script type="text/javascript" src="libs/amcharts/amcharts/amcharts.js"></script>
-   <script type="text/javascript" src="libs/amcharts/amcharts/pie.js"></script>
-
 
 
    <!-- actual program starts here -->
+
+
+
    <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
+
+   <!--
    <script type="text/javascript" src="controller.js"></script>-
 
    <script type="text/javascript" src="locationsvar.json"></script>
@@ -111,6 +108,8 @@
    
    <script type="text/javascript" src="picturesvar.json"></script>
    <script type="text/javascript" src="edelfeltpictures.js"></script>
+-->
 
+   
   </body>
 </html>
