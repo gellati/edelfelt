@@ -8,3 +8,5 @@ Skrivet i [Javascript](http://www.w3schools.com/js/). Använder följande biblio
 * [vis.js](http://visjs.org/)
 * [amCharts](https://www.amcharts.com/)
 * [noUiSlider](http://refreshless.com/nouislider/)
+
+En version av visualiseringen kan kollas in [här](gellati.github.io/edelfelt).
