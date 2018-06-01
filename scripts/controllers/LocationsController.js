@@ -3,7 +3,7 @@
   var app = angular.module("edelfeltViewer");
 
   var LocationsController= function($scope, $http){
-    var baseUrl = "//edelfelt.sls.fi"
+    var baseUrl = "http://edelfelt.sls.fi"
 
     var url = baseUrl + "/api/locations/?format=jsonp&callback=JSON_CALLBACK";
     //	url = "http://edelfelt.sls.fi/api/locations/?format=json";
