@@ -9,11 +9,11 @@ Skrivet i [Javascript](http://www.w3schools.com/js/). Använder följande biblio
 * [amCharts](https://www.amcharts.com/)
 * [noUiSlider](http://refreshless.com/nouislider/)
 
-En version av visualiseringen kan kollas in [här](gellati.github.io/edelfelt).
+En version av visualiseringen kan kollas in [här](https://gellati.github.io/edelfelt).
 
 
 ***
 
 Visualisation about the Finnish artist [Albert Edelfelt](https://en.wikipedia.org/wiki/Albert_Edelfelt). Based on the [Edelfelt API](http://edelfelt.sls.fi/apiinfo/) by the [Society of Swedish Literature in Finland](http://www.sls.fi/en).
 
-A version of the visualisation can be browsed [here](gellati.github.io/edelfelt).
+A version of the visualisation can be browsed [here](https://gellati.github.io/edelfelt).
