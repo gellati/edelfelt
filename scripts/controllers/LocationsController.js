@@ -112,7 +112,6 @@ $http.jsonp(url)
 
   var lineArray = getLines(filteredLocations, 0, filteredLocations.length);
   var placeArray = getLocations(filteredLocations, 0, filteredLocations.length);
-  console.log(filteredLocations)
 
   var mapChart = AmCharts.makeChart("mapcontainer", {
     // set path to images

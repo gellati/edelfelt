@@ -1,0 +1,28 @@
+{
+  "name": "edelfelt",
+  "version": "0.0.0",
+  "description": "",
+  "dependencies": {
+    "amcharts3": "^3.21.13",
+    "ammap3": "^3.21.13",
+    "angular": "^1.5.0",
+    "angular-animate": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "del": ">=2.0.0",
+    "gulp": "~3.9.1",
+    "gulp-clean": ">=0.3.0",
+    "gulp-concat": ">=2.4.2",
+    "gulp-jshint": ">=1.9.0",
+    "gulp-rename": ">=1.2.0",
+    "gulp-uglify": ">=1.0.2",
+    "jquery": "^2.2.0",
+    "nouislider": "^8.2.1",
+    "vis": "^4.16.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPLv4"
+}
