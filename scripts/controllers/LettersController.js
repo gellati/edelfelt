@@ -4,41 +4,31 @@
 
   var LettersController = function($scope, $http){
 
-    var baseUrl = "http://edelfelt.sls.fi"
+    var baseUrl = "//edelfelt.sls.fi"
 
     var url = baseUrl + "/api/letters/?format=jsonp&callback=JSON_CALLBACK";
     $http.jsonp(url)
     .success(function(data, status){
 
-      var letters = data.results;
+      let letters = data.results;
 
-
-      console.log(letters[0]);
-
-      console.log(letters[2]);
-
-      var l = [];
-      var letter = {};
-
+      let l = [];
       for(var i = 0; i < letters.length; i++){
         if(letters[i].pages.length > 1){
-          letter = {};
+          let letter = {};
           letter.title = letters[i].title;
           letter.link = letters[i].web_url;
           letter.pages = letters[i].pages.length;
           letter.date = letters[i].date;
           l.push(letter);
-          //			console.log(letters[i].pages.length);
         }
       }
 
       $scope.letters = l;
 
-
-
-      var lettersarray = [];
+      let lettersarray = [];
       for(var i = 0; i < letters.length; i++){
-        var letter = {};
+        let letter = {};
         letter.id = letters[i].id;
         letter.start = letters[i].date;
         letter.content = letters[i].pages.length.toString();

@@ -3,7 +3,7 @@
   var app = angular.module("edelfeltViewer");
 
   var LocationsController= function($scope, $http){
-    var baseUrl = "http://edelfelt.sls.fi"
+    var baseUrl = "//edelfelt.sls.fi"
 
     var url = baseUrl + "/api/locations/?format=jsonp&callback=JSON_CALLBACK";
     //	url = "http://edelfelt.sls.fi/api/locations/?format=json";
@@ -11,9 +11,9 @@
     var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
 
     function filterNullLocations(locations){
-      var i;
+      let i;
       var filteredLocations = [];
-      var place = {};
+      let place = {};
       for(i = 0; i < locations.length; i++){
         if(($.type(locations[i].lat) !== "null") && ($.type(locations[i].long) !== "null")){
           place = {};
@@ -21,8 +21,12 @@
           place.long = locations[i].long;
           place.name = locations[i].name;
           place.id = locations[i].id.toString();
+          place.description = locations[i].lat + " " + locations[i].long
           place.country = locations[i].country;
           place.events = locations[i].events;
+          place.svgPath = targetSVG;
+          place.zoomLevel = 5;
+          place.scale = 0.5;
           filteredLocations.push(place);
         }
       }
@@ -39,28 +43,22 @@
           'latitudes' : [locations[i]['lat'], locations[i+1]['lat']],
           'longitudes' : [locations[i]['long'], locations[i+1]['long']]
         };
-        //		console.log("place");
-        //		console.log(place);
         ilocations.push(place);
       }
-
-      //	    console.log("geLines: " + index + " " + steps);
-      //	    console.log(ilocations.length);
       return ilocations;
     }
 
     function getLocations(locations, index, steps){
       var ilocations = [];
       index = Math.floor(index);
-      var i;
-      var place = {};
+      let i;
       for(i = index; i < index + steps; i++){
-        place = {};
+        let place = {};
         place.id = locations[i].id.toString();
         place.latitude = locations[i].lat;
         place.longitude = locations[i].long;
         place.scale = 0.6;
-        place.title = locations[i].name;
+        place.title = locations[i].name + "<br>" + locations[i].lat + " " + locations[i].long;
         place.svgPath = targetSVG;
         place.country = locations[i].country;
         ilocations.push(place);
@@ -70,7 +68,7 @@
 
     function getLocationArray(locations){
       var locationArray = [];
-      var i;
+      let i;
       for(i = 0; i < locations.length; i++){
         locationArray.push(locations[i].id.toString());
       }
@@ -98,49 +96,34 @@ var onError = function(reason){
   $scope.error = "could not fetch data";
 }
 
-//console.log(v(url).then(data.result, onError));
-
-//	getNext(nextUrl);
-
-
-//	var rsync = httpGetAsync(url);
-//	console.log(rsync);
-
-
 $http.jsonp(url)
 .success(function(data, status){
 
   var locationData = data.results;
 
-  console.log(data.previous);
-
   if(data.previous === null){
-    console.log("this null");
+//    console.log("this null");
   }
-
-
-
-  console.log(data.next);
-
 
   var locationArray = [];
   var location = {};
 
-
   var filteredLocations = filterNullLocations(locationData);
-
-  console.log(filteredLocations);
 
   var lineArray = getLines(filteredLocations, 0, filteredLocations.length);
   var placeArray = getLocations(filteredLocations, 0, filteredLocations.length);
-  //		    write("mapcontainer"),
+  console.log(filteredLocations)
 
   var mapChart = AmCharts.makeChart("mapcontainer", {
     // set path to images
     "type": "map",
-    "pathToImages": "libs/ammap/ammap/images/",
+//    "pathToImages": "libs/ammap/ammap/images/",
+
     "imagesSettings": {
-      "balloonText": "<span style='font-size:14px;background-color:blue;'>[[name]]</span>"
+      color: "#3300AA",
+      rollOverColor: "#CC5500",
+      rollOverScale : 3,  // for targetSVG when hovering over target
+      selectedColor: "#000000",
     },
 
     "linesSettings" : {
@@ -152,12 +135,7 @@ $http.jsonp(url)
       arrowSize: 4
     },
 
-    "images": {
-      color: "#CC0000",
-      rollOverColor: "#CC0000",
-      selectedColor: "#000000"
-    },
-
+    "images": filteredLocations,
     "dataProvider": {
       map: "worldLow",
       getAreasFromMap: true,
@@ -165,7 +143,6 @@ $http.jsonp(url)
       zoomLongitude: 10,
       zoomLatitude: 55,
       lines: lineArray,
-      images: placeArray
     },
 
     // pass data provider to the map object
@@ -180,11 +157,10 @@ $http.jsonp(url)
   var maxpos = filteredLocations.length - 1;
   var locationArray = getLocationArray(filteredLocations);
 
-
   noUiSlider.create(slider, {
     start: [ 0, filteredLocations.length - 1 ], // Handle start position
-    step: 1, // Slider moves in increments of '10'
-    margin: 1, // Handles must be more than '20' apart
+    step: 1, // Slider moves in increments of '1'
+    margin: 1, // Handles must be more than '1' apart
     connect: true, // Display a colored bar between the handles
     direction: 'ltr', // Put '0' at the bottom of the slider
     orientation: 'horizontal', // Orient the slider vertically
@@ -194,23 +170,8 @@ $http.jsonp(url)
   });
 
   slider.noUiSlider.on('update', function (values, handle) {
-    console.log("filteredLocations");
-    console.log(filteredLocations.length);
     var places2 = getLocations(filteredLocations, values[0], values[1] - values[0] + 1);
     var lines2 = getLines(filteredLocations, values[0], values[1] - values[0] + 1);
-
-
-    console.log("places2");
-    console.log(places2);
-    console.log("lines2");
-    console.log(lines2);
-
-    console.log("maplines");
-    console.log(mapChart.dataProvider.lines);
-
-    console.log("images");
-    console.log(mapChart.dataProvider.images);
-
 
     //		    var target = mapChart.dataProvider;
     //		    mapChart.dataProvider.lines = lines2;
